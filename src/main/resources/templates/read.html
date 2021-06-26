@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Read</title>
+</head>
+<body>
+
+<th:block th:each="article : ${articles}">
+    <h2 th:text="${article.name}"></h2>
+    <p th:text="${article.content}">Filler</p>
+</th:block>
+<a href="/index"><button>Return</button></a>
+</body>
+</html>

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Submit</title>
+</head>
+<body>
+<form action="/submit" method="post">
+    <label for="fileName" th:text="#{fileName}"></label><br>
+    <input type="text" id="fileName" name="fileName"> <br>
+    <textarea name="content" id="content" cols="30" rows="10"></textarea>
+    <input type="submit">
+</form>
+<a href="/index"><button>Return</button></a>
+</body>
+</html>

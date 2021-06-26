@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Storm</title>
+</head>
+<body>
+<p><a href="/submit"><button>Create article</button></a></p>
+<form action="/search" method="post">
+  <label for="search" th:text="#{search}"></label>
+  <input type="text" id="search" name="search"/>
+    <input type="submit">
+</form>
+<ul>
+<th:block th:each="tr : ${trunc}">
+    <li>
+        <p th:text="${tr.article.id}"></p>
+    </li>
+    <li>
+        <p th:text="${tr.article.name}"></p>
+    </li>
+    <li>
+        <a th:href="'/read?id=' + ${tr.article.id}"  th:text="${tr.truncatedArticle}"></a>
+    </li>
+</th:block>
+</ul>
+
+</body>
+</html>

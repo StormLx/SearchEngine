@@ -44,35 +44,37 @@ public class SearchController {
             RedirectAttributes redirectAttributes,
             Model model
     ) {
+        search = search.toLowerCase();
         Hashtable<String, ArrayList<String>> ht = indexSingleton.getHashtable();
-        ArrayList<String> arrz = new ArrayList<>();
+        ArrayList<TruncatedArticle> articles = new ArrayList<>();
+
         if (!SearchUtils.checkString(search)) {
             String[] searchArr = search.split(" ");
             for (String word : searchArr) {
-                if (ht.containsKey(word)){
-                    arrz.addAll(ht.get(word)); // TODO list of article names and compare them
-                }
-            }
 
-            if (ht.containsKey(search)) {
-                LOGGER.info(ht.get(search));
-                LOGGER.info(search);
-                ArrayList<String> arr = ht.get(search);
-                ArrayList<TruncatedArticle> articles = new ArrayList<>();
-                for (String name : arr) {
-                    Article article = articleDAO.findByName(name);
-                    TruncatedArticle truncatedArticle = new TruncatedArticle(article);
-                    truncatedArticle.truncate(search);
-                    articles.add(truncatedArticle);
+
+                if (ht.containsKey(word)) {
+                    LOGGER.info(ht.get(word));
+                    LOGGER.info(word);
+                    ArrayList<String> arr = ht.get(word);
+
+                    for (String name : arr) {
+                        Article article = articleDAO.findByName(name);
+                        TruncatedArticle truncatedArticle = new TruncatedArticle(article);
+                        truncatedArticle.truncate(word);
+                        articles.add(truncatedArticle);
+                    }
+                    articles.sort(Comparator.comparing(TruncatedArticle::getArticleName));
+                    Collections.reverse(articles);
+                    redirectAttributes.addFlashAttribute(articles);
+                } else {
+                    LOGGER.info("This word does not exist in our database.");
                 }
-                articles.sort(Comparator.comparing(TruncatedArticle::getArticleName));
-                Collections.reverse(articles);
-                redirectAttributes.addFlashAttribute(articles);
-            } else {
-                LOGGER.info("This word does not exist in our database.");
             }
+            articles.sort(Comparator.comparing(TruncatedArticle::getArticleName));
+            Collections.reverse(articles);
+            redirectAttributes.addFlashAttribute(articles);
         }
-
         return "redirect:/index";
     }
 }

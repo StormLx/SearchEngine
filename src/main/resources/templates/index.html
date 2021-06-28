@@ -13,15 +13,13 @@
 </form>
 <ul>
 <th:block th:each="tr : ${trunc}">
-    <li>
-        <p th:text="${tr.article.id}"></p>
+    <li style="list-style: none;">
+        <p th:text="'Nom de l\'article: ' + ${tr.article.name}"></p>
     </li>
-    <li>
-        <p th:text="${tr.article.name}"></p>
-    </li>
-    <li>
+    <li style="list-style: none;">
         <a th:href="'/read?id=' + ${tr.article.id}"  th:text="${tr.truncatedArticle}"></a>
     </li>
+    <br>
 </th:block>
 </ul>
 
